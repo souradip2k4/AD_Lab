@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.impute import SimpleImputer
 
 df = pd.read_csv('IRIS.csv')
 
@@ -13,7 +12,8 @@ print("\nMissing values before imputation:\n", df.isnull().sum())
 
 for col in df.select_dtypes(include=[np.number]):
   mean_value = df[col].mean()
-  df[col].fillna(mean_value, inplace=True)
+fill_values = {col: mean_value for col in df.select_dtypes(include=[np.number])}
+df.fillna(fill_values, inplace=True)
 
 print("\nMissing values after imputation:\n", df.isnull().sum())
 
@@ -37,8 +37,8 @@ plt.hist(df[first_numeric_col], bins=20, color='blue', edgecolor='black')
 plt.title(f"Distribution of {first_numeric_col} (scaled)")
 plt.xlabel(f"{first_numeric_col} (scaled)")
 plt.ylabel("Frequency")
-# plt.show()
 plt.savefig('sepal_length_distribution.png')
+plt.show()
 
 if len(numeric_columns) > 1:
   plt.figure(figsize=(6, 4))
@@ -46,15 +46,15 @@ if len(numeric_columns) > 1:
   plt.title(f"{numeric_columns[0]} vs {numeric_columns[1]}")
   plt.xlabel(numeric_columns[0])
   plt.ylabel(numeric_columns[1])
-  # plt.show()
   plt.savefig('scatter_plot.png')
+  plt.show()
 
 plt.figure(figsize=(8, 6))
 correlation_matrix = df[numeric_columns].corr()
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
 plt.title("Correlation Heatmap")
-# plt.show()
 plt.savefig('heatmap.png')
+plt.show()
 
 print("\nSouradip Saha")
 print("22052939")
