@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.preprocessing import StandardScaler
 
 # Load the dataset
 data_path = 'spambase.data.csv'
@@ -20,14 +21,19 @@ y = data.iloc[:, -1]
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# Scale the features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
 # Initialize the logistic regression model
-model = LogisticRegression(max_iter=1000, random_state=42)
+model = LogisticRegression(max_iter=2000, random_state=42)
 
 # Train the model
-model.fit(X_train, y_train)
+model.fit(X_train_scaled, y_train)
 
 # Make predictions
-y_pred = model.predict(X_test)
+y_pred = model.predict(X_test_scaled)
 
 # Evaluate the model
 accuracy = accuracy_score(y_test, y_pred)
