@@ -24,7 +24,6 @@ for col in df.select_dtypes(include=[object]):
 
 print("\nDataset after encoding categorical data:\n", df.head())
 
-
 scaler = StandardScaler()
 numeric_columns = df.select_dtypes(include=[np.number]).columns
 df[numeric_columns] = scaler.fit_transform(df[numeric_columns])
@@ -32,7 +31,7 @@ df[numeric_columns] = scaler.fit_transform(df[numeric_columns])
 print("\nDataset after feature scaling:\n", df.head())
 
 first_numeric_col = numeric_columns[0]
-plt.figure(figsize=(6, 4))
+plt.figure(figsize=(8, 6))
 plt.hist(df[first_numeric_col], bins=20, color='blue', edgecolor='black')
 plt.title(f"Distribution of {first_numeric_col} (scaled)")
 plt.xlabel(f"{first_numeric_col} (scaled)")
@@ -41,7 +40,7 @@ plt.savefig('sepal_length_distribution.png')
 plt.show()
 
 if len(numeric_columns) > 1:
-  plt.figure(figsize=(6, 4))
+  plt.figure(figsize=(8, 6))
   sns.scatterplot(x=df[numeric_columns[0]], y=df[numeric_columns[1]])
   plt.title(f"{numeric_columns[0]} vs {numeric_columns[1]}")
   plt.xlabel(numeric_columns[0])
